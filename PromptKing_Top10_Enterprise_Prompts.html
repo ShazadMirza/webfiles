@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMPT KING — Top 10 Enterprise AI Prompts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9963A;
+    --gold-light: #F0C85A;
+    --gold-pale: #F5E199;
+    --gold-dim: #7A5C1E;
+    --bg: #060504;
+    --bg-card: #0D0B07;
+    --bg-elevated: #141008;
+    --text: #EDE8DC;
+    --text-muted: #8A7F6A;
+    --border: rgba(201,150,58,0.18);
+    --border-bright: rgba(201,150,58,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,150,58,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,150,58,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 56px 0 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .header-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(201,150,58,0.08);
+    border: 1px solid var(--border-bright);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .crown-icon { font-size: 14px; }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 12px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .header-title span {
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold), var(--gold-dim));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 16px;
+    line-height: 1.6;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .header-announce {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(201,150,58,0.15), rgba(201,150,58,0.05));
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 13px;
+    color: var(--gold-pale);
+    margin-bottom: 48px;
+    font-family: 'DM Mono', monospace;
+    animation: fadeUp 0.7s ease 0.3s both;
+    letter-spacing: 0.02em;
+  }
+
+  .header-announce strong { color: var(--gold-light); }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+    animation: fadeUp 0.7s ease 0.4s both;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .stat-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-bright));
+  }
+  .divider::after { background: linear-gradient(90deg, var(--border-bright), transparent); }
+
+  .divider-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    white-space: nowrap;
+  }
+
+  /* ── PROMPT CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .prompt-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.5s ease both;
+    cursor: pointer;
+  }
+
+  .prompt-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(201,150,58,0.08);
+  }
+
+  .prompt-card.expanded .card-body { display: block; }
+  .prompt-card.expanded .expand-icon { transform: rotate(45deg); }
+
+  .card-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 26px;
+  }
+
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold-dim);
+    letter-spacing: 0.1em;
+    background: rgba(201,150,58,0.08);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  .card-title-group { flex: 1; }
+
+  .card-category {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .card-impact {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .impact-revenue {
+    background: rgba(40, 180, 100, 0.12);
+    color: #4ADE80;
+    border: 1px solid rgba(40,180,100,0.25);
+  }
+
+  .impact-time {
+    background: rgba(96, 165, 250, 0.12);
+    color: #93C5FD;
+    border: 1px solid rgba(96,165,250,0.25);
+  }
+
+  .impact-both {
+    background: rgba(201,150,58,0.12);
+    color: var(--gold-pale);
+    border: 1px solid var(--border-bright);
+  }
+
+  .expand-icon {
+    font-size: 18px;
+    color: var(--gold-dim);
+    transition: transform 0.3s;
+    font-family: 'DM Mono', monospace;
+    line-height: 1;
+  }
+
+  /* ── CARD BODY ── */
+  .card-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 0 26px 26px;
+  }
+
+  .card-body-inner {
+    padding-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 680px) {
+    .card-body-inner { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr; }
+    .card-header { grid-template-columns: auto 1fr; }
+    .card-right { display: none; }
+  }
+
+  .prompt-box {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+
+  .prompt-box-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+  }
+
+  .prompt-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #D4C9A0;
+  }
+
+  .prompt-text .bracket {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .use-case-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .use-case-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .use-case-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .use-case-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .use-case-metric {
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  .tools-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .tool-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border-bright);
+    color: var(--text-muted);
+    background: rgba(201,150,58,0.05);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── TWEET SECTION ── */
+  .tweet-section {
+    margin-top: 56px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 36px 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tweet-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  }
+
+  .tweet-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .tweet-avatar {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .tweet-handle strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .tweet-handle span {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .tweet-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-line;
+    margin-bottom: 24px;
+    font-family: 'Instrument Sans', sans-serif;
+  }
+
+  .tweet-body .highlight { color: var(--gold-pale); font-weight: 600; }
+  .tweet-body .hashtag { color: var(--gold); }
+
+  .tweet-actions {
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tweet-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+
+  .tweet-btn-primary {
+    background: linear-gradient(135deg, var(--gold), #A07820);
+    color: #060504;
+  }
+
+  .tweet-btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(201,150,58,0.3);
+  }
+
+  .tweet-btn-secondary {
+    background: rgba(201,150,58,0.08);
+    color: var(--gold);
+    border: 1px solid var(--border-bright);
+  }
+
+  .tweet-btn-secondary:hover {
+    background: rgba(201,150,58,0.15);
+    transform: translateY(-1px);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .footer-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .prompt-card:nth-child(1)  { animation-delay: 0.05s; }
+  .prompt-card:nth-child(2)  { animation-delay: 0.10s; }
+  .prompt-card:nth-child(3)  { animation-delay: 0.15s; }
+  .prompt-card:nth-child(4)  { animation-delay: 0.20s; }
+  .prompt-card:nth-child(5)  { animation-delay: 0.25s; }
+  .prompt-card:nth-child(6)  { animation-delay: 0.30s; }
+  .prompt-card:nth-child(7)  { animation-delay: 0.35s; }
+  .prompt-card:nth-child(8)  { animation-delay: 0.40s; }
+  .prompt-card:nth-child(9)  { animation-delay: 0.45s; }
+  .prompt-card:nth-child(10) { animation-delay: 0.50s; }
+
+  /* ── COPY BUTTON ── */
+  .copy-btn {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold-dim);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    float: right;
+    margin-top: -2px;
+  }
+  .copy-btn:hover { color: var(--gold); border-color: var(--border-bright); }
+  .copy-btn.copied { color: #4ADE80; border-color: rgba(40,180,100,0.4); }
+
+  /* ── CLAUDE CALLOUT ── */
+  .claude-callout {
+    margin-bottom: 48px;
+    background: linear-gradient(135deg, rgba(201,150,58,0.08), rgba(201,150,58,0.03));
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    padding: 20px 26px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.7s ease 0.35s both;
+  }
+
+  .claude-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .claude-text {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .claude-text strong { color: var(--gold-pale); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-eyebrow">
+      <span class="crown-icon">👑</span>
+      PROMPT KING · BONUS DROP · @PromptKing32
+    </div>
+
+    <h1 class="header-title">Top 10 Enterprise AI Prompts<br><span>Saving Time & Generating Revenue</span></h1>
+
+    <p class="header-sub">Grounded in real 2025 enterprise data. These prompts are being used right now inside Fortune 500s, scaling startups, and high-growth teams.</p>
+
+    <div class="header-announce">
+      <strong>🚨 Breaking:</strong> Claude now creates & edits Excel, PowerPoint, and PDFs directly in your browser — these prompts just became even more powerful.
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-num">$37B</span>
+      <div class="stat-label">Enterprise AI spend in 2025 — 3.2× YoY growth</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">75%</span>
+      <div class="stat-label">Of enterprises tracking AI ROI report positive returns</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">70%+</span>
+      <div class="stat-label">Of enterprise GenAI tools rely on prompt engineering over fine-tuning</div>
+    </div>
+  </div>
+
+  <!-- CLAUDE CALLOUT -->
+  <div class="claude-callout">
+    <span class="claude-icon">⚡</span>
+    <div class="claude-text">
+      <strong>Why this matters today:</strong> Anthropic just made thousands of AI apps irrelevant. Claude can now create and edit Excel, PowerPoint, and PDFs directly in your browser — no integrations, no extra tools. Every prompt below can now produce a finished, downloadable enterprise document in seconds.
+    </div>
+  </div>
+
+  <div class="divider"><span class="divider-label">Click any card to reveal the prompt</span></div>
+
+  <!-- CARDS -->
+  <div class="cards-grid" id="cardsGrid"></div>
+
+  <!-- TWEET SECTION -->
+  <div class="tweet-section">
+    <div class="tweet-header">
+      <div class="tweet-avatar">👑</div>
+      <div class="tweet-handle">
+        <strong>PROMPT KING</strong>
+        <span>@PromptKing32</span>
+      </div>
+    </div>
+    <div class="tweet-body">🚨 <span class="highlight">Anthropic just made thousands of AI apps irrelevant.</span>
+
+Claude now creates & edits Excel, PowerPoint and PDFs directly in your browser.
+
+Here are the TOP 10 enterprise AI prompts being used RIGHT NOW by Fortune 500s — that save time AND generate revenue. 🧵👇
+
+<span class="hashtag">#PromptKing #Claude #EnterpriseAI #AI #Anthropic #ChatGPT #Copilot</span></div>
+    <div class="tweet-actions">
+      <button class="tweet-btn tweet-btn-primary" onclick="copyTweet()">📋 Copy Tweet</button>
+      <button class="tweet-btn tweet-btn-secondary" onclick="copyAll()">📄 Copy All 10 Prompts</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">👑 PROMPT KING</div>
+    <div class="footer-handle">@PromptKing32 · Daily AI prompt tips for everyone</div>
+  </div>
+
+</div>
+
+<script>
+const prompts = [
+  {
+    num: "01",
+    category: "Revenue Generation",
+    title: "The Pipeline Accelerator",
+    impact: "revenue",
+    impactLabel: "↑ Revenue",
+    tools: ["ChatGPT", "Claude", "Copilot"],
+    prompt: `Act as a senior enterprise sales strategist. Analyse our pipeline data below and identify: (1) the top 3 deals most likely to close in the next 30 days with reasoning, (2) the single biggest objection blocking each, and (3) a specific next-step action to advance each deal. Format as an executive briefing.\n\nPipeline data: [paste CRM export or deal list]`,
+    useCase: "Sales teams at Fortune 500s use this to prioritise deals and cut sales cycles. One B2B SaaS team reduced average deal close time by 22%.",
+    metric: "↑ 22% faster deal close",
+    why: "Synthesises scattered CRM data into one actionable briefing. Replaces 3 hours of pipeline review with 30 seconds."
+  },
+  {
+    num: "02",
+    category: "Time Savings — Finance",
+    title: "The CFO Briefing Builder",
+    impact: "time",
+    impactLabel: "⏱ Saves Hours",
+    tools: ["Claude", "ChatGPT", "Gemini"],
+    prompt: `Act as a CFO preparing a board-level financial briefing. Analyse the data below and produce: (1) a 5-sentence executive summary, (2) top 3 risks with severity ratings (High/Medium/Low), (3) top 2 growth opportunities with estimated revenue impact, and (4) 2 immediate recommended actions. Tone: confident, direct, no jargon.\n\nFinancial data: [paste Q report, spreadsheet export, or metrics]`,
+    useCase: "Finance teams use this inside Claude or Copilot to convert raw data into board-ready narratives. Replaces 4–6 hours of analyst work per quarter.",
+    metric: "⏱ 4–6 hrs saved per quarter",
+    why: "Claude's 200K+ context window handles full quarterly reports in one prompt — no other tool does this at this scale."
+  },
+  {
+    num: "03",
+    category: "Revenue Generation — Sales",
+    title: "The Enterprise Proposal Engine",
+    impact: "both",
+    impactLabel: "↑ Revenue + ⏱ Time",
+    tools: ["Claude", "ChatGPT", "Copilot"],
+    prompt: `Act as a senior solutions consultant. Write a compelling enterprise proposal for [company name] based on the brief below. Structure: (1) Executive Summary — their problem, our solution, ROI in 90 days, (2) Proposed Solution with 3 key deliverables, (3) Investment summary, (4) Why Us section with 2 differentiators, (5) Clear next steps. Tone: professional, confident, outcome-focused.\n\nClient brief: [paste discovery notes, email thread, or call transcript]`,
+    useCase: "Sales engineers use this to generate first-draft enterprise proposals in under 5 minutes. One professional services firm increased proposal output by 3× without adding headcount.",
+    metric: "3× more proposals/week",
+    why: "Claude excels at long-form structured documents with consistent formatting — ideal for multi-section proposals."
+  },
+  {
+    num: "04",
+    category: "Time Savings — Operations",
+    title: "The Meeting Intelligence Engine",
+    impact: "time",
+    impactLabel: "⏱ Saves Hours",
+    tools: ["Copilot", "Claude", "Gemini"],
+    prompt: `Analyse this meeting transcript and extract: (1) All decisions made (numbered list), (2) All action items with owner and deadline where mentioned, (3) Open questions requiring follow-up, (4) Any risks or blockers identified. Then write a 3-sentence executive summary for the email follow-up. Format cleanly under these 5 headings.\n\nTranscript: [paste Teams/Zoom transcript]`,
+    useCase: "Operations and project teams recover 5–8 hours per week. Satya Nadella publicly uses a version of this prompt inside Copilot for all his leadership meetings.",
+    metric: "⏱ 5–8 hrs/week recovered",
+    why: "Microsoft Copilot pulls directly from Teams transcripts — this prompt is natively supercharged inside M365."
+  },
+  {
+    num: "05",
+    category: "Revenue Generation — Marketing",
+    title: "The Campaign ROI Optimizer",
+    impact: "both",
+    impactLabel: "↑ Revenue + ⏱ Time",
+    tools: ["ChatGPT", "Claude", "Gemini"],
+    prompt: `Act as a senior performance marketing analyst. Review the campaign data below and provide: (1) ROI ranking of all campaigns from highest to lowest, (2) the single biggest underperforming channel and why, (3) 3 specific optimisations to increase overall ROAS by 20%+, and (4) a reallocation recommendation for next quarter's budget. Show your reasoning for each recommendation.\n\nCampaign data: [paste ad spend, impressions, conversions, revenue by channel]`,
+    useCase: "Marketing teams use this to turn raw campaign data into reallocation strategy in minutes. One e-commerce brand increased ROAS by 31% in one quarter using AI-driven budget shifts.",
+    metric: "↑ 31% ROAS improvement",
+    why: "Works best when you paste actual data. The more context, the more specific — and actionable — the output."
+  },
+  {
+    num: "06",
+    category: "Time Savings — Legal & Compliance",
+    title: "The Contract Risk Scanner",
+    impact: "time",
+    impactLabel: "⏱ Saves Hours",
+    tools: ["Claude", "ChatGPT"],
+    prompt: `Act as a senior commercial lawyer reviewing this contract for risk. Identify: (1) the top 5 clauses that present business or legal risk, each rated High/Medium/Low, (2) any missing standard clauses that should be present, (3) 3 suggested redlines with plain-language rationale for each, and (4) an overall risk rating out of 10. Do not provide legal advice — flag for counsel review.\n\nContract: [paste contract text]`,
+    useCase: "Legal and procurement teams use this to pre-screen contracts before expensive external counsel. One law firm using Gemini reduced due diligence time by 40%.",
+    metric: "⏱ 40% faster due diligence",
+    why: "Claude's 200K token context window can process full multi-page contracts in a single prompt — no chunking needed."
+  },
+  {
+    num: "07",
+    category: "Revenue Generation — Customer Success",
+    title: "The Churn Prevention Playbook",
+    impact: "revenue",
+    impactLabel: "↑ Revenue",
+    tools: ["ChatGPT", "Claude", "Copilot"],
+    prompt: `Act as a VP of Customer Success. Analyse the customer health data below and identify: (1) the 5 accounts at highest churn risk with specific signals, (2) the primary reason for risk for each, (3) a tailored save strategy for each account (actions, talking points, offers), and (4) one expansion opportunity in each at-risk account. Format as a CS team playbook.\n\nCustomer data: [paste health scores, usage data, support tickets, renewal dates]`,
+    useCase: "CS teams use this to turn health score data into proactive save playbooks. Reducing churn by even 2% on a $10M ARR book of business protects $200K in revenue.",
+    metric: "↑ $200K ARR protected per 2% churn reduction",
+    why: "Works across ChatGPT, Claude, and Copilot. Paste your CRM export or health dashboard data directly into the prompt."
+  },
+  {
+    num: "08",
+    category: "Time Savings — HR & Talent",
+    title: "The Talent Intelligence Brief",
+    impact: "time",
+    impactLabel: "⏱ Saves Hours",
+    tools: ["ChatGPT", "Claude", "Copilot"],
+    prompt: `Act as a senior talent acquisition partner. Review these [X] resumes and: (1) rank all candidates against the job description, (2) write a 3-sentence brief on each top 5 candidate highlighting fit and gaps, (3) generate 5 role-specific interview questions tailored to the top candidate, and (4) flag any yellow or red flags across all submissions. Do not make hiring decisions — support human review.\n\nJob description: [paste JD]\nResumes: [paste or attach candidate profiles]`,
+    useCase: "HR teams reduce resume screening time by 70–80% using this prompt. One enterprise reduced time-to-first-interview from 12 days to 3 days.",
+    metric: "⏱ 70–80% screening time reduced",
+    why: "Works with Claude's document upload feature. Paste multiple resumes in one prompt and get a ranked, structured brief instantly."
+  },
+  {
+    num: "09",
+    category: "Revenue Generation — Strategy",
+    title: "The Competitive Intelligence Report",
+    impact: "both",
+    impactLabel: "↑ Revenue + ⏱ Time",
+    tools: ["ChatGPT", "Claude", "Perplexity"],
+    prompt: `Act as a strategy consultant conducting a competitive analysis. For [competitor name], research and produce: (1) their top 3 product strengths vs. ours, (2) top 3 weaknesses we can exploit, (3) their likely strategic moves in the next 6–12 months based on recent signals, (4) our top 3 counter-moves, and (5) a 1-paragraph positioning statement that differentiates us clearly. Cite evidence for each point.\n\nOur product/service overview: [paste brief]`,
+    useCase: "Strategy and product teams use this for quarterly competitive reviews. It replaces a 2-week analyst project with a 2-minute prompt and is now standard practice at multiple Fortune 500 strategy teams.",
+    metric: "⏱ 2-week project → 2 minutes",
+    why: "Use ChatGPT with web browsing or Perplexity for real-time competitive signals. Use Claude for longer synthesis tasks."
+  },
+  {
+    num: "10",
+    category: "Revenue Generation — Excel/PowerPoint",
+    title: "The Revenue Dashboard Builder",
+    impact: "both",
+    impactLabel: "↑ Revenue + ⏱ Time",
+    tools: ["Claude", "Copilot", "ChatGPT"],
+    prompt: `Act as a senior data analyst. Using the revenue data below, build me: (1) an Excel dashboard with MRR trend, churn rate, net revenue retention, and top 5 accounts by growth — use charts, (2) a 5-slide PowerPoint executive summary with one key insight per slide and a recommended action, and (3) a 3-sentence narrative I can use in the board email. Make the Excel and PowerPoint downloadable.\n\nRevenue data: [paste CSV, table, or data export]`,
+    useCase: "This is the prompt that leverages Claude's new file creation capability directly. What used to require a data analyst, a designer, and a writer now takes one prompt. Finance and RevOps teams are already using this.",
+    metric: "3 roles → 1 prompt",
+    why: "🚨 NEW: Claude can now create and deliver the actual Excel and PowerPoint files directly in your browser. No other tool does this as seamlessly."
+  }
+];
+
+const impactClasses = {
+  revenue: 'impact-revenue',
+  time: 'impact-time',
+  both: 'impact-both'
+};
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  prompts.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'prompt-card';
+    card.innerHTML = `
+      <div class="card-header" onclick="toggleCard(${i})">
+        <div class="card-num">${p.num}</div>
+        <div class="card-title-group">
+          <div class="card-category">${p.category}</div>
+          <div class="card-title">${p.title}</div>
+        </div>
+        <div class="card-right">
+          <span class="card-impact ${impactClasses[p.impact]}">${p.impactLabel}</span>
+          <span class="expand-icon">+</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="prompt-box">
+              <div class="prompt-box-label">
+                The Prompt
+                <button class="copy-btn" onclick="copyPrompt(event, ${i})">copy</button>
+              </div>
+              <div class="prompt-text">${formatPrompt(p.prompt)}</div>
+            </div>
+            <div class="tools-row">
+              ${p.tools.map(t => `<span class="tool-pill">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="use-case-box">
+            <div class="use-case-item">
+              <div class="use-case-label">Real-World Use Case</div>
+              <div class="use-case-text">${p.useCase}</div>
+              <div class="use-case-metric">${p.metric}</div>
+            </div>
+            <div class="use-case-item">
+              <div class="use-case-label">Why It Works</div>
+              <div class="use-case-text">${p.why}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function formatPrompt(text) {
+  return text.replace(/\[([^\]]+)\]/g, '<span class="bracket">[$1]</span>').replace(/\n/g, '<br>');
+}
+
+function toggleCard(i) {
+  const cards = document.querySelectorAll('.prompt-card');
+  cards[i].classList.toggle('expanded');
+}
+
+function copyPrompt(event, i) {
+  event.stopPropagation();
+  const btn = event.target;
+  navigator.clipboard.writeText(prompts[i].prompt).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyTweet() {
+  const tweet = `🚨 Anthropic just made thousands of AI apps irrelevant.
+
+Claude now creates & edits Excel, PowerPoint and PDFs directly in your browser.
+
+Here are the TOP 10 enterprise AI prompts being used RIGHT NOW by Fortune 500s — that save time AND generate revenue. 🧵👇
+
+#PromptKing #Claude #EnterpriseAI #AI #Anthropic #ChatGPT #Copilot`;
+  navigator.clipboard.writeText(tweet).then(() => alert('Tweet copied to clipboard! 👑'));
+}
+
+function copyAll() {
+  const all = prompts.map((p, i) => `PROMPT ${p.num} — ${p.title}\n${p.prompt}\n\nUSE CASE: ${p.useCase}\nMETRIC: ${p.metric}\n`).join('\n---\n\n');
+  navigator.clipboard.writeText(all).then(() => alert('All 10 prompts copied to clipboard! 👑'));
+}
+
+renderCards();
+</script>
+</body>
+</html>
